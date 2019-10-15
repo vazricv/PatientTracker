@@ -1,0 +1,86 @@
+﻿@page
+@model PatentTracker.Pages.Departments.IndexModel
+@{
+	ViewData["Title"] = "Stages";
+}
+
+<br />
+<div class="container row">
+	<div class="col-6">
+		<h2 class="text-info">Stages</h2>
+	</div>
+
+	<div class="col-6">
+		<a asp-page="Create" class="btn btn-primary">Create New Stage</a>
+	</div>
+</div>
+<form method="post">
+	@if (Model.Stages.Count() > 0)
+	{
+		<br /><br />
+		<table class="table table-striped border">
+			<tr class="table-secondary">
+				<th>
+					@Html.DisplayNameFor(s => s.Stages.FirstOrDefault().OrderNumber)
+				</th>
+				<th>
+					@Html.DisplayNameFor(s => s.Stages.FirstOrDefault().Name)
+				</th>
+				<th>
+					@Html.DisplayNameFor(s => s.Stages.FirstOrDefault().Description)
+				</th>
+				<th>
+					Patient Count
+				</th>
+				<th>
+					@Html.DisplayNameFor(s => s.Stages.FirstOrDefault().DueTime)
+				</th>
+				<th>
+
+				</th>
+				<th>
+
+				</th>
+			</tr>
+			@foreach (var item in Model.Stages)
+			{
+		<tr>
+			<td>
+				@Html.DisplayFor(m => item.OrderNumber)
+			</td>
+			<td>
+				@Html.DisplayFor(m => item.Name)
+			</td>
+			<td>
+				@Html.DisplayFor(m => item.Description)
+			</td>
+			<td>
+				@item.NumberOfPatients
+			</td>
+			<td>
+				@item.DueTimeDisplay
+				@*@Html.DisplayFor(m => item.DueTime)*@
+			</td>
+			<td>
+				<a asp-route-id="@item.Id" asp-page="/patients/index" class="btn btn-success btn-sm">View Patients</a>
+			</td>
+			<td>
+				<a asp-route-id="@item.Id" asp-page="Edit" class="btn btn-primary btn-sm">Edit</a>
+				<button asp-route-id="@item.Id" asp-page-handler="Delete"
+						onclick="return confirm('Are you sure that you want to delete this stage?');"
+						class="btn btn-danger btn-sm">
+					Delete
+				</button>
+			</td>
+		</tr>
+			}
+		</table>
+
+	}
+	else
+	{
+		<p>
+			No Stages Available
+		</p>
+	}
+</form>
